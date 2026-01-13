@@ -1,0 +1,21 @@
+### Post to the server a reporting period
+POST / HTTP/1.1
+Host: localhost:5555
+Content-Type: application/json
+
+{
+  "state_durations": {
+    "U": 600.094
+  },
+  "action_durations": {
+    "flush_logs": 114.807,
+    "post_json": 77.9724,
+    "ping_with_http": 151.672
+  },
+  "watcher_duration": 77904.4,
+  "duration": 600.094,
+  "start_memory": 1894000,
+  "delta_memory": 3008,
+  "important_events": [],
+  "start_time": "2026-01-10 10:22:16"
+}
