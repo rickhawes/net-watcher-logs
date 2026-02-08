@@ -22,30 +22,31 @@ func handlePost(c *fiber.Ctx) error {
 	body := c.Body()
 
 	// Try to parse as array first (most common), then as single object
-	var entries []LogEntry
-	if err := json.Unmarshal(body, &entries); err != nil {
-		var single LogEntry
+	var reports []Report
+	if err := json.Unmarshal(body, &reports); err != nil {
+		var single Report
 		if err := json.Unmarshal(body, &single); err != nil {
 			log.Printf("Error parsing JSON: %v\n", err)
 			return c.Status(fiber.StatusBadRequest).SendString("Invalid JSON")
 		}
-		entries = []LogEntry{single}
+		reports = []Report{single}
 	}
 
-	for _, entry := range entries {
-		if err := insertLogEntry(entry); err != nil {
-			log.Printf("Error inserting log entry: %v\n", err)
-			return c.Status(fiber.StatusInternalServerError).SendString("Failed to save log")
+	for _, report := range reports {
+		if err := insertReport(report); err != nil {
+			log.Printf("Error inserting report: %v\n", err)
+			return c.Status(fiber.StatusInternalServerError).SendString("Failed to save report")
 		}
 	}
 
-	log.Printf("Inserted %d log entries\n", len(entries))
-	return c.Status(fiber.StatusCreated).SendString("Log received")
+	log.Printf("Inserted %d reports\n", len(reports))
+	return c.Status(fiber.StatusCreated).SendString("Report received")
 }
 
 func main() {
 	app := fiber.New()
 	dbInit()
+	modelInit()
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("NetWatcher Logs")

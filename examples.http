@@ -19,3 +19,153 @@ Content-Type: application/json
   "important_events": [],
   "start_time": "2026-01-10 10:22:16"
 }]
+
+### Post mulitple reporting periods
+POST / HTTP/1.1
+Host: localhost:5555
+Content-Type: application/json
+
+[
+    {
+        "state_durations": {
+            "U": 722.5,
+            "U1": 132.5
+        },
+        "action_durations": {
+            "post_json": 71.5332,
+            "flush_logs": 125.916,
+            "sync_time_with_ntp": 10183.0,
+            "ping_with_http": 237.915,
+            "set_router_power": 0.427239
+        },
+        "watcher_duration": 900601.0,
+        "duration": 600.0,
+        "start_memory": 1882816,
+        "delta_memory": 144,
+        "important_events": [
+            {
+                "at": "2026-02-07 13:23:34",
+                "state": "U1",
+                "message": "<- U",
+                "duration": 0,
+                "event_type": "important",
+                "context": [
+                    {
+                        "at": "2026-02-07 13:22:44",
+                        "state": "U",
+                        "message": "http://google.com 301",
+                        "duration": 0,
+                        "event_type": "debug",
+                        "context": []
+                    },
+                    {
+                        "at": "2026-02-07 13:22:44",
+                        "state": "U",
+                        "message": "ping_with_http 1 96.0388ms",
+                        "duration": 0,
+                        "event_type": "info",
+                        "context": []
+                    },
+                    {
+                        "at": "2026-02-07 13:22:54",
+                        "state": "U",
+                        "message": "http://google.com 301",
+                        "duration": 0,
+                        "event_type": "debug",
+                        "context": []
+                    },
+                    {
+                        "at": "2026-02-07 13:22:54",
+                        "state": "U",
+                        "message": "ping_with_http 1 96.8628ms",
+                        "duration": 0,
+                        "event_type": "info",
+                        "context": []
+                    },
+                    {
+                        "at": "2026-02-07 13:23:04",
+                        "state": "U",
+                        "message": "http://google.com 301",
+                        "duration": 0,
+                        "event_type": "debug",
+                        "context": []
+                    },
+                    {
+                        "at": "2026-02-07 13:23:04",
+                        "state": "U",
+                        "message": "ping_with_http 1 103.119ms",
+                        "duration": 0,
+                        "event_type": "info",
+                        "context": []
+                    },
+                    {
+                        "at": "2026-02-07 13:23:14",
+                        "state": "U",
+                        "message": "http://google.com 301",
+                        "duration": 0,
+                        "event_type": "debug",
+                        "context": []
+                    },
+                    {
+                        "at": "2026-02-07 13:23:14",
+                        "state": "U",
+                        "message": "ping_with_http 1 96.5881ms",
+                        "duration": 0,
+                        "event_type": "info",
+                        "context": []
+                    },
+                    {
+                        "at": "2026-02-07 13:23:34",
+                        "state": "U",
+                        "message": "Failed to sync with NTP server: [Errno 116] ETIMEDOUT",
+                        "duration": 0,
+                        "event_type": "error",
+                        "context": []
+                    },
+                    {
+                        "at": "2026-02-07 13:23:34",
+                        "state": "U",
+                        "message": "sync_time_with_ntp (3, 0.0) 10183.0ms",
+                        "duration": 0,
+                        "event_type": "info",
+                        "context": []
+                    }
+                ]
+            },
+            {
+                "at": "2026-02-07 13:23:43",
+                "state": "U",
+                "message": "<- U1",
+                "duration": 0,
+                "event_type": "important",
+                "context": [
+                    {
+                        "at": "2026-02-07 13:23:34",
+                        "state": "U1",
+                        "message": "set_router_power True",
+                        "duration": 0,
+                        "event_type": "info",
+                        "context": []
+                    },
+                    {
+                        "at": "2026-02-07 13:23:43",
+                        "state": "U1",
+                        "message": "http://google.com 301",
+                        "duration": 0,
+                        "event_type": "debug",
+                        "context": []
+                    },
+                    {
+                        "at": "2026-02-07 13:23:43",
+                        "state": "U1",
+                        "message": "ping_with_http 1 95.5811ms",
+                        "duration": 0,
+                        "event_type": "info",
+                        "context": []
+                    }
+                ]
+            }
+        ],
+        "start_time": "2026-02-07 13:21:31"
+    }
+]
