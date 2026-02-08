@@ -13,9 +13,7 @@ RUN go build -v -o /usr/local/bin/app ./...
 # Stage 2: Run the application in a minimal image
 FROM alpine:latest AS runtime
 COPY --from=builder /usr/local/bin/app /usr/local/bin/app
-ENV LOG_DIR=/var/log/net-watcher-logs 
 RUN apk add --no-cache tzdata
 ENV TZ=America/Los_Angeles
 EXPOSE 5555
 CMD ["app"]
-

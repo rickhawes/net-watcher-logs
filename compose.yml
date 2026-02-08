@@ -1,0 +1,20 @@
+services:
+  net-watcher-logs:
+    image: rickhawes/net-watcher-logs:latest
+    container_name: net-watcher-logs
+    network_mode: host
+    environment:
+      TZ: America/Los_Angeles
+      DATABASE_URL: postgres://postgres:netwatcher@localhost:5432/net_watcher_logs?sslmode=disable
+    restart: always
+  postgres:
+    image: postgres:18
+    container_name: postgres
+    network_mode: host
+    environment:
+      POSTGRES_PASSWORD: netwatcher
+      POSTGRES_USER: postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always 

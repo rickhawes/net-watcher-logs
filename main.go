@@ -1,26 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"log"
 	"os"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
-
-func logInit() string {
-	dir, exists := os.LookupEnv("LOG_DIR")
-	if !exists {
-		dir = "logs"
-	}
-
-	err := os.MkdirAll(dir, os.ModePerm)
-	if err != nil {
-		log.Fatalf("Failed to create logs directory: %v\n", err)
-	}
-	return dir
-}
 
 func getPort() string {
 	port, exists := os.LookupEnv("PORT")
@@ -33,32 +19,33 @@ func getPort() string {
 func handlePost(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 
-	// Read the request body
-	bytes := c.Body()
+	body := c.Body()
 
-	// Format the timestamp
-	formattedTime := time.Now().Local().Format("20060102-150405")
-
-	// Create a timestamped log fil
-	filePath := fmt.Sprintf("%s/%s-%03d.json", logDir, formattedTime, logCount%1000)
-	err := os.WriteFile(filePath, bytes, 0666)
-	if err != nil {
-		log.Printf("Error writing log to file: %v\n", err)
-		return c.Status(fiber.StatusInternalServerError).SendString("Failed to write log")
+	// Try to parse as array first (most common), then as single object
+	var entries []LogEntry
+	if err := json.Unmarshal(body, &entries); err != nil {
+		var single LogEntry
+		if err := json.Unmarshal(body, &single); err != nil {
+			log.Printf("Error parsing JSON: %v\n", err)
+			return c.Status(fiber.StatusBadRequest).SendString("Invalid JSON")
+		}
+		entries = []LogEntry{single}
 	}
-	logCount++
-	log.Printf("Log written to: %s\n", filePath)
 
+	for _, entry := range entries {
+		if err := insertLogEntry(entry); err != nil {
+			log.Printf("Error inserting log entry: %v\n", err)
+			return c.Status(fiber.StatusInternalServerError).SendString("Failed to save log")
+		}
+	}
+
+	log.Printf("Inserted %d log entries\n", len(entries))
 	return c.Status(fiber.StatusCreated).SendString("Log received")
 }
 
-var logDir string = ""
-var logCount int = 0
-
 func main() {
 	app := fiber.New()
-	logDir = logInit()
-	log.Printf("Logging directory initialized at: %s\n", logDir)
+	dbInit()
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("NetWatcher Logs")

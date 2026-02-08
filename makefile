@@ -8,6 +8,10 @@ init:
 run:
 	go run . 
 
+# Run using docker compose
+run-docker:
+	docker compose -f compose.yml up
+
 # Make docker images
 #  requires docker to be running. (eg. orb)
 #

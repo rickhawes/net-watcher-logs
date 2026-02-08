@@ -3,7 +3,7 @@ POST / HTTP/1.1
 Host: localhost:5555
 Content-Type: application/json
 
-{
+[{
   "state_durations": {
     "U": 600.094
   },
@@ -18,4 +18,4 @@ Content-Type: application/json
   "delta_memory": 3008,
   "important_events": [],
   "start_time": "2026-01-10 10:22:16"
-}
+}]
